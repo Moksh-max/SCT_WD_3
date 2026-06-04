@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SkillCraft · Quiz Game</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-dot">S</div>
+      <div class="brand-text">
+        <div class="brand-name">SkillCraft</div>
+        <div class="brand-sub">Quiz Arena</div>
+      </div>
+    </div>
+    <div class="hud">
+      <span>Score</span>
+      <div class="hud-score" id="hudScore">0</div>
+    </div>
+  </header>
+
+  <!-- SCREEN: Splash -->
+  <div class="screen active" id="screenSplash">
+    <div class="splash">
+      <div class="splash-badge">✦ Interactive Quiz Game</div>
+      <h1>Test Your <em>Knowledge</em></h1>
+      <p>Challenge yourself with 5 diverse question types — single choice, multi-select, fill in the blanks, true/false, and ordering. Pick a topic and begin!</p>
+
+      <div class="topic-grid" id="topicGrid">
+        <div class="topic-card selected" data-topic="general">
+          <div class="topic-icon">🌍</div>
+          <div class="topic-name">General Knowledge</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+        <div class="topic-card" data-topic="science">
+          <div class="topic-icon">🔬</div>
+          <div class="topic-name">Science</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+        <div class="topic-card" data-topic="tech">
+          <div class="topic-icon">💻</div>
+          <div class="topic-name">Technology</div>
+          <div class="topic-count">10 questions</div>
+        </div>
+      </div>
+
+      <div class="type-pills">
+        <div class="type-pill"><span>🔘</span> Single Choice</div>
+        <div class="type-pill"><span>☑️</span> Multi-Select</div>
+        <div class="type-pill"><span>✍️</span> Fill in Blank</div>
+        <div class="type-pill"><span>↕️</span> Ordering</div>
+        <div class="type-pill"><span>✅</span> True / False</div>
+      </div>
+
+      <button class="btn-start" onclick="startQuiz()">▶&nbsp;&nbsp;Start Quiz</button>
+    </div>
+  </div>
+
+  <!-- SCREEN: Quiz -->
+  <div class="screen" id="screenQuiz">
+    <!-- Progress -->
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span class="q-counter" id="qCounter">Question 1 of 10</span>
+        <span class="q-type-tag tag-single" id="qTypeTag">Single Choice</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer-row">
+      <svg class="timer-ring" viewBox="0 0 36 36">
+        <circle class="timer-track" cx="18" cy="18" r="14"/>
+        <circle class="timer-fill"  cx="18" cy="18" r="14" id="timerCircle"/>
+      </svg>
+      <span id="timerNum">20</span>
+    </div>
+
+    <!-- Question card -->
+    <div class="q-card" id="qCard">
+      <div class="q-num" id="qNum">Q1</div>
+      <div class="q-text" id="qText">Loading...</div>
+      <div class="q-hint" id="qHint" style="display:none"></div>
+      <div id="qBody"></div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="feedback-bar" id="feedbackBar">
+      <span class="feedback-icon" id="feedbackIcon"></span>
+      <div>
+        <div id="feedbackMsg"></div>
+        <div class="feedback-exp" id="feedbackExp"></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <button class="btn-check" id="btnCheck" onclick="checkAnswer()">Check Answer</button>
+    <button class="btn-next visible" id="btnNext" onclick="nextQuestion()" style="display:none">Next Question →</button>
+  </div>
+
+  <!-- SCREEN: Results -->
+  <div class="screen" id="screenResults">
+    <div class="results">
+      <span class="results-emoji" id="resultsEmoji">🏆</span>
+      <h2 id="resultsTitle">Excellent!</h2>
+      <p class="results-sub" id="resultsSub">Here's how you did</p>
+
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-inner">
+          <div class="score-big" id="scoreBig">0</div>
+          <div class="score-of" id="scoreOf">out of 10</div>
+        </div>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-val" id="statCorrect" style="color:var(--green)">0</div>
+          <div class="stat-lbl">Correct</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statWrong" style="color:var(--red)">0</div>
+          <div class="stat-lbl">Wrong</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statSkipped" style="color:var(--gold)">0</div>
+          <div class="stat-lbl">Skipped</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="statPct" style="color:var(--blue)">0%</div>
+          <div class="stat-lbl">Accuracy</div>
+        </div>
+      </div>
+
+      <div class="review-list">
+        <h3>📋 Answer Review</h3>
+        <div id="reviewItems"></div>
+      </div>
+
+      <button class="btn-restart" onclick="restartQuiz()">↺&nbsp;&nbsp;Play Again</button>
+    </div>
+  </div>
+
+</div><!-- /.wrap -->
+
+<script src="script.js"></script>
+</body>
+</html>
